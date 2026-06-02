@@ -4,7 +4,6 @@ import { Gender } from "src/user/enums/gender.enums";
 export class RegisterUserResponse {
     full_name: string;
     email: string ;
-    password: string;
     mobile: string;
     gender:Gender;
     created_at: Date;

@@ -2,7 +2,6 @@ import { plainToInstance, Type } from "class-transformer";
 
 export class LoginUserResponse {
     email: string ;
-    password: string;
     access_token :string ;
     refresh_token :string ;
     message :string ;

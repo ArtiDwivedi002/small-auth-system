@@ -11,9 +11,6 @@ export class RegisterUserEntity {
   @Field(()=>String ,{description:"Email of the User" , })
   email: string;
 
-  @Field(()=>String ,{description:"Password of the User" ,})
-  password: string;
-
   @Field(() => String, { nullable: true })
   mobile: string;
 

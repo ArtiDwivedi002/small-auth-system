@@ -7,8 +7,6 @@ export class LoginUserEntity {
   @Field(()=>String ,{description:"Email of the User" , })
   email: string;
 
-  @Field(()=>String ,{description:"Password of the User" ,})
-  password: string;
 
   @Field(()=>String , {description:"Access token of user" ,nullable:true})
   access_token :string;
