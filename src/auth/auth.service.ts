@@ -31,21 +31,19 @@ async registerUser(registeredUserInput:RegisteredUserInput): Promise<AuthRegiste
 
     const user = await this.authRepository.registerUser(registeredUserInput);
 
-    
-              // Generate Tokens
-          const tokens = await this.jwtTokenServices.getUserToken(
-            user.email,
-            user.id,
-          );
-        
-          // Save Refresh Token
-          await this.userRepository.save(
-            { ...user, refresh_token: tokens.refresh_token }
-          );
-    
-    if(!user) {
-        throw new Error('User registration failed');
-    }
+      // Generate Tokens
+  const tokens = await this.jwtTokenServices.getUserToken(
+    user.email,
+    user.id,
+  );
+
+  // Save Refresh Token
+  await this.userRepository.update(
+    user.id,
+    {
+      refresh_token: tokens.refresh_token,
+    },
+  );
     return AuthRegisterResponse.decode({user})
 
 }
