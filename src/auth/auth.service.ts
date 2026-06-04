@@ -14,6 +14,7 @@ import { In, Repository } from "typeorm";
 import * as bcrypt from 'bcrypt';
 import { User } from "src/user/database/user.entity";
 import { InjectRepository } from "@nestjs/typeorm";
+import { JwtTokenServices } from "./jwt/jwt.service";
 
 
 @Injectable()
@@ -21,12 +22,26 @@ export class AuthService {
     constructor(
         @InjectRepository(User)
         private userRepository: Repository<User>,
-        private authRepository:AuthRepository
+        private authRepository:AuthRepository,
+        private readonly jwtTokenServices: JwtTokenServices
+        
     ){}
 // Register
 async registerUser(registeredUserInput:RegisteredUserInput): Promise<AuthRegisterEntity> {
 
     const user = await this.authRepository.registerUser(registeredUserInput);
+
+    
+              // Generate Tokens
+          const tokens = await this.jwtTokenServices.getUserToken(
+            user.email,
+            user.id,
+          );
+        
+          // Save Refresh Token
+          await this.userRepository.save(
+            { ...user, refresh_token: tokens.refresh_token }
+          );
     
     if(!user) {
         throw new Error('User registration failed');
